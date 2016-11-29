@@ -1,0 +1,5 @@
+gem_test_runner:
+  image: sageone/gem_test_runner
+  container_name: gem_test_runner
+  volumes:
+      - .:/client_gem
