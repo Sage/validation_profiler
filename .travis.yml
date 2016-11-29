@@ -1,0 +1,15 @@
+language: ruby
+rvm:
+- 2.3.0
+- 2.3.1
+
+cache: bundler
+
+deploy:
+  provider: rubygems
+  api_key:
+    secure: "G96J1zlE4Of6ZmtyXEdQrZP6xCUbZf756K2HlRNBq9Nt7xZ3RPt8TnLH0R689WCILSyEaoGFi/6sNsTUXprPs6uQT1bkt2ogEEtDFde2RBmFpK8GKWJnmbwLj3FW6BC/FQHW+rRQ3Bj0o33Kk5cwrKx2QAsZbXFOjsefNzq+z790E7hf2pRvjsVIohe1/R4x4qviaC1zlgPA6wHdcjhHu6xK6iBTzQHCLXLpZ0Us3G/tjR4fSaoxkkoQsynLnt5nKmE9/zpXqzYMku1mU7SJlIAMZLlyVEJeQ5MrfXaQaj4PeMVjWN/A9GlG9S3ybU2YktUzZom5EqI0865DM8H/Z18myQZfKOEREWf6pGEsx6YrPzFofI0Vg9Kf914XEvTosRIWQx+uwArtnnT6O5lUFQmu/hEhe+/gGE2h3BfeQnv167uwKvM7pgeUq3Ixqkb4fcCVCP/d1rUT6na6UASQqfIhRbhG6shfhcN9Drb4QXh/mSl/C/7qZYvWp3dFe+51TvQ3XVIxrYy2o8ymyWcXO+sXuVgZT2p7xyIpDa2OcGfUf6M4f8WgZMKuqOMcZ+B9bQ038rF3wJkA01Yx9XLbOwz2JDf77DDT9vs+AieqlMOUTZ1vA56z+keZq29qYnIeRi1/aIdGW8IPt9VVwD+TDbvBAjNv1pWDgkfdgmt9zPA="
+  gem: validation_profiler
+  on:
+    tags: true
+
