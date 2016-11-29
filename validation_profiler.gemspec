@@ -25,7 +25,7 @@ end
 
 Gem::Specification.new do |spec|
   spec.name          = "validation_profiler"
-  spec.version       = ValidationProfiler::VERSION
+  spec.version       = version
   spec.authors       = ["vaughanbrittonsage"]
   spec.email         = ["vaughanbritton@gmail.com"]
 
