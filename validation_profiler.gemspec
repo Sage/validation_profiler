@@ -3,7 +3,7 @@ lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 ####################
-#### Set GEM Version based on GIT Release TAG when built with Codeship
+#### Set GEM Version based on GIT Release TAG when built with Travis
 ####################
 version = ''
 if ENV['TRAVIS_TAG'] != nil
@@ -26,12 +26,12 @@ end
 Gem::Specification.new do |spec|
   spec.name          = "validation_profiler"
   spec.version       = version
-  spec.authors       = ["vaughanbrittonsage"]
-  spec.email         = ["vaughanbritton@gmail.com"]
+  spec.authors       = ["Sage One"]
+  spec.email         = ["vaughan.britton@sage.com"]
 
   spec.summary       = 'A Validation framework for creating validation profiles, allowing for the separation & reuse of validation logic from the object being validated.'
   spec.description   = 'A Validation framework for creating validation profiles, allowing for the separation & reuse of validation logic from the object being validated.'
-  spec.homepage      = "https://github.com/vaughanbrittonsage/validation_profiler"
+  spec.homepage      = "https://github.com/sage/validation_profiler"
   spec.license       = "MIT"
 
   spec.files         = Dir.glob("{bin,lib}/**/**/**")
