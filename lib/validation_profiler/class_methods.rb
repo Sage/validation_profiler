@@ -8,7 +8,7 @@ class Class
   # @param attributes [Hash] [Optional] A has containing the validation rule options
   def validates(field, rule, attributes = {})
 
-    puts "[#{self.class}] - Method depreciated. Please use 'extend ValidationProfiler' in your validation profile class to access the 'validates' method."
+    puts "[ValidationProfile] - Method depreciated. Please use 'extend ValidationProfiler' in your validation profile class to access the 'validates' method."
 
     if !self.class_variable_defined?(:@@validation_rules)
       self.class_variable_set(:@@validation_rules, [])
