@@ -1,10 +1,10 @@
 module ValidationProfiler
   module Rules
     class ValidationRule
-
       def get_field_value(obj, field)
         #attempt to get the field value from the object
         field_value = nil
+
         #check if the object is a hash
         if obj.is_a?(Hash)
           if obj.has_key?(field)
@@ -15,9 +15,7 @@ module ValidationProfiler
           end
         else
           #if the object does not contain the specified field raise an exception
-          if !obj.respond_to?(field)
-            raise ValidationProfiler::Exceptions::FieldNotFound.new(field)
-          end
+          raise ValidationProfiler::Exceptions::FieldNotFound.new(field) if !obj.respond_to?(field)
 
           #get the field value
           field_value = obj.send(field)
@@ -26,18 +24,20 @@ module ValidationProfiler
 
       def is_required?(field_value, attributes = {})
         required = attributes[:required]
-        if required == nil
-          required = true
-        end
+        required = true if required.nil?
 
         #check if the field is required
-        if field_value == nil && required == false
-          return false
-        else
-          return true
-        end
+        return false if required_field?(field_value, required)
+        true
       end
 
+      private
+
+      def required_field?(field_value, required)
+	(field_value.nil? || 
+	  (field_value.respond_to?(:empty?) && field_value.empty?)) && 
+	  !required
+      end
     end
   end
 end
