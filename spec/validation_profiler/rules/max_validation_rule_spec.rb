@@ -1,3 +1,5 @@
+require 'date'
+
 RSpec.describe ValidationProfiler::Rules::MaxValidationRule do
 
   describe '#validate' do

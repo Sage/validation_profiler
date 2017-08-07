@@ -1,3 +1,5 @@
+require 'securerandom'
+
 RSpec.describe ValidationProfiler::Manager do
     it 'should return a pass outcome when an object is valid for the profile' do
       obj = TestObject.new
