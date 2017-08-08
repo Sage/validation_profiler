@@ -1,3 +1,5 @@
+require 'time'
+
 RSpec.describe ValidationProfiler::Rules::TimeValidationRule do
 
   describe '#validate' do
