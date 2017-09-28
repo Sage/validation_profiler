@@ -85,7 +85,7 @@ module ValidationProfiler
           b = 'nil'
         end
 
-        eval("#{a} #{expression} #{b}")
+        eval("#{a}.#{expression} #{b}")
       end
 
     end
