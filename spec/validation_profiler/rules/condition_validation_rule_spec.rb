@@ -102,7 +102,7 @@ RSpec.describe ValidationProfiler::Rules::ConditionValidationRule do
       ).to eq(true)
     end
 
-    it "should fail to validate a condition that states when :array contains a value b "\
+    it "should fail to validate a condition that states when :array contains value b "\
     "then :text should be 'In the array' when the condition is false" do
       test_obj = TestObject.new
       test_obj.array = %w[a b]
