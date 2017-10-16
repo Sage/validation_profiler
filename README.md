@@ -22,7 +22,8 @@ Or install it yourself as:
 
 First you need to create a validation profile to hold the validation logic you want to apply, validation profiles must inherit from the ValidationProfile base class or another validation profile.
 
-    class SignUpValidationProfile < ValidationProfile
+    class SignUpValidationProfile
+      extend ValidationProfile
 	    .....
     end
 
@@ -54,14 +55,14 @@ This validation statement will be interpreted as:
 To use a validation profile you need to make a call to the **ValidationManager** class, and pass the object you want to validate along with the profile you want to use for the validation:
 
     #create the validation manager
-    manager = ValidationManager.new
+    manager = ValidationProfiler::Manager.new
     
     #call the validate method and pass the object and profile
     result = manager.validate(user, profile)
 
-Calls to the validate method will return a **ValidationManagerResult** that will detail the results of the validation.
+Calls to the validate method will return a **ValidationProfiler::ManagerResult** that will detail the results of the validation.
 
-A **ValidationManagerResult** has the following attributes:
+A **ValidationProfiler::ManagerResult** has the following attributes:
 
  - #outcome = [Boolean] overall outcome of the validation (passed or failed)
  - #errors = [Array] containing details of each field error that occurred during validation.
