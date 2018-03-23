@@ -30,10 +30,10 @@ Then you specify validation rules that should be checked when this profile is va
 
     class SignUpValidationProfile
         extend ValidationProfiler
-        
+
 	    validates :age, :min, { value: 18 }
 	    validates :email, :email
-	    ..... 
+	    .....
     end
 
 When specifying a validation rule you need to specify the following arguments:
@@ -45,17 +45,17 @@ When specifying a validation rule you need to specify the following arguments:
 So if we take another look at the first validation rule we specified in the **SignUpValidationProfile** above:
 
 	Field name = :age
-	Rule key = :min 
+	Rule key = :min
 	Attributes Hash = { value: 18 }
 
-This validation statement will be interpreted as: 
+This validation statement will be interpreted as:
 *"The field :age must have a minimum value of 18"*
 
 To use a validation profile you need to make a call to the **ValidationManager** class, and pass the object you want to validate along with the profile you want to use for the validation:
 
     #create the validation manager
     manager = ValidationManager.new
-    
+
     #call the validate method and pass the object and profile
     result = manager.validate(user, profile)
 
@@ -69,7 +69,7 @@ A **ValidationManagerResult** has the following attributes:
 Each item in the errors array has the following attributes:
 
  - #field = The name of the field that this error occurred for.
- - #message = A message that describes the validation error 
+ - #message = A message that describes the validation error
 
 ## Validation Rules
 
@@ -82,7 +82,7 @@ This rule is used to specify a field must contain a value:
 Attributes:
 
  - **:message** [String] [Optional]
- This is used to allow a custom error message to be specified. 
+ This is used to allow a custom error message to be specified.
 
 
 ----------
@@ -98,19 +98,19 @@ Attributes:
 
  - **:min** [Numeric]
  This is used to specify the minimum length of the field value.
- 
+
  - **:max** [Numeric]
  This is used to specify the maximum length of the field value.
- 
+
  > **:min** & **:max** can be included together or independently providing at least 1 is specified.
- 
+
  - **:message** [String] [Optional]
- This is used to allow a custom error message to be specified. 
- 
+ This is used to allow a custom error message to be specified.
+
  - **:required** [Boolean] [Default=True] [Optional]
  This is used to specify if this rule should only be executed when the field contains a value.
- > **True** always executes, **False** only executes when the field contains a value)*
- 
+ > **True** always executes, **False** only executes when the field contains a value)
+
 
 ----------
 
@@ -125,14 +125,14 @@ Attributes:
 
  - **:value** [Numeric/DateTime]
  This is used to specify the minimum value of the field.
- 
+
  - **:message** [String] [Optional]
- This is used to allow a custom error message to be specified. 
- 
+ This is used to allow a custom error message to be specified.
+
  - **:required** [Boolean] [Default=True] [Optional]
 	 This is used to specify if this rule should only be executed when the field contains a value.
 > **True** always executes, **False** only executes when the field contains a value)*
- 
+
 ----------
 
 #
@@ -146,13 +146,13 @@ Attributes:
 
  - **:value** [Numeric/DateTime]
  This is used to specify the maximum value of the field.
- 
+
  - **:message** [String] [Optional]
- This is used to allow a custom error message to be specified. 
- 
+ This is used to allow a custom error message to be specified.
+
  - **:required** [Boolean] [Default=True] [Optional]
  This is used to specify if this rule should only be executed the field contains a value.
-> **True** always executes, **False** only executes when the field contains a value)*
+> **True** always executes, **False** only executes when the field contains a value)
 
 ----------
 
@@ -166,11 +166,11 @@ This rule is used to specify a field value must contain a valid email address.
 Attributes:
 
  - **:message** [String] [Optional]
- This is used to allow a custom error message to be specified. 
- 
+ This is used to allow a custom error message to be specified.
+
  - **:required** [Boolean] [Default=True] [Optional]
  This is used to specify if this rule should only be executed when the field contains a value.
-> **True** always executes, **False** only executes when the field contains a value)*
+> **True** always executes, **False** only executes when the field contains a value)
 
 ----------
 
@@ -187,11 +187,11 @@ Attributes:
 This is used to specify the regex pattern.
 
  - **:message** [String] [Optional]
- This is used to allow a custom error message to be specified. 
- 
+ This is used to allow a custom error message to be specified.
+
  - **:required** [Boolean] [Default=True] [Optional]
  This is used to specify if this rule should only be executed when the field contains a value.
-> **True** always executes, **False** only executes when the field contains a value)*
+> **True** always executes, **False** only executes when the field contains a value)
 
 ----------
 
@@ -208,8 +208,8 @@ Attributes:
 This is used to specify the name of the other field this field's value must match.
 
  - **:message** [String] [Optional]
- This is used to allow a custom error message to be specified. 
- 
+ This is used to allow a custom error message to be specified.
+
  - **:required** [Boolean] [Default=True] [Optional]
  This is used to specify if this rule should only be executed when the field contains a value.
  > **True** always executes, **False** only executes when the field contains a value)
@@ -224,7 +224,7 @@ This rule is used to specify a condition statement.
 e.g.
 
 > format:
-> 
+>
 > When [:condition_field] [:condition_expression] [:condition_value] then [:field] [:field_expression] [:field_value]
 >
 >could be read as:
@@ -248,7 +248,7 @@ This is used to specify the expression to use between the condition_field and th
 > '<'
 > '<='
 > '!='
-   
+
 
  - **:condition_value** [String/Numeric/DateTime/nil]
 This is used to specify the value to use for the condition statement.
@@ -258,10 +258,10 @@ This is used to specify the expression to use between the field's value and the 
 
  - **:field_value** [String/Numeric/DateTime/nil]
 This is used to specify the value to use for the field statement.
- 
+
  - **:message** [String] [Optional]
- This is used to allow a custom error message to be specified. 
- 
+ This is used to allow a custom error message to be specified.
+
  - **:required** [Boolean] [Default=True] [Optional]
  This is used to specify if this rule should only be executed when the field contains a value.
  > **True** always executes, **False** only executes when the field contains a value)
@@ -299,7 +299,7 @@ Attributes:
 
  - **:required** [Boolean] [Default=True] [Optional]
  This is used to specify if this rule should only be executed when the field contains a value.
- > **True** always executes, **False** only executes when the field contains a value)*
+ > **True** always executes, **False** only executes when the field contains a value)
 
 ----------
 
@@ -320,7 +320,7 @@ Attributes:
 
  - **:required** [Boolean] [Default=True] [Optional]
  This is used to specify if this rule should only be executed when the field contains a value.
- > **True** always executes, **False** only executes when the field contains a value)* 
+ > **True** always executes, **False** only executes when the field contains a value)
 
 
 ------------
@@ -333,13 +333,13 @@ This rule is used to specify a field must be a valid Integer
     validates :age, :int, { required: false }
 
 Attributes:
-  
+
  - **:message** [String] [Optional]
- This is used to allow a custom error message to be specified. 
- 
+ This is used to allow a custom error message to be specified.
+
  - **:required** [Boolean] [Default=True] [Optional]
  This is used to specify if this rule should only be executed when the field contains a value.
- > **True** always executes, **False** only executes when the field contains a value)*
+ > **True** always executes, **False** only executes when the field contains a value)
 
 ----------
 
@@ -351,13 +351,13 @@ This rule is used to specify a field must be a valid Decimal
     validates :amount, :decimal, { required: false }
 
 Attributes:
-  
+
  - **:message** [String] [Optional]
- This is used to allow a custom error message to be specified. 
- 
+ This is used to allow a custom error message to be specified.
+
  - **:required** [Boolean] [Default=True] [Optional]
  This is used to specify if this rule should only be executed when the field contains a value.
- > **True** always executes, **False** only executes when the field contains a value)*
+ > **True** always executes, **False** only executes when the field contains a value)
 
 ----------
 
@@ -369,13 +369,13 @@ This rule is used to specify a field must be a valid Date
     validates :dob, :date, { required: false }
 
 Attributes:
-  
+
  - **:message** [String] [Optional]
- This is used to allow a custom error message to be specified. 
- 
+ This is used to allow a custom error message to be specified.
+
  - **:required** [Boolean] [Default=True] [Optional]
  This is used to specify if this rule should only be executed when the field contains a value.
- > **True** always executes, **False** only executes when the field contains a value)*
+ > **True** always executes, **False** only executes when the field contains a value)
 
 ----------
 
@@ -387,37 +387,37 @@ This rule is used to specify a field must be a valid Time. Value can be either f
     validates :updated, :time, { required: false }
 
 Attributes:
-  
+
  - **:message** [String] [Optional]
- This is used to allow a custom error message to be specified. 
- 
+ This is used to allow a custom error message to be specified.
+
  - **:required** [Boolean] [Default=True] [Optional]
  This is used to specify if this rule should only be executed when the field contains a value.
- > **True** always executes, **False** only executes when the field contains a value)*
+ > **True** always executes, **False** only executes when the field contains a value)
 
 ----------
 
 #
 **GuidValidationRule**
 
-This rule is used to specify a field must be a valid Guid. 
+This rule is used to specify a field must be a valid Guid.
 
     validates :id, :guid, { hyphens: true, brackets: true, required: true }
 
 Attributes:
-  
+
  - **:hyphens** [Boolean] [Default=false] [Optional]
   This is used to allow a the guid value to contain hyphens.
-  
+
  - **:brackets** [Boolean] [Default=false] [Optional]
  This is used to allow a the guid value to contain brackets. Both ( & { brackets are supported.
-  
+
  - **:message** [String] [Optional]
- This is used to allow a custom error message to be specified. 
- 
+ This is used to allow a custom error message to be specified.
+
  - **:required** [Boolean] [Default=True] [Optional]
  This is used to specify if this rule should only be executed when the field contains a value.
- > **True** always executes, **False** only executes when the field contains a value)*
+ > **True** always executes, **False** only executes when the field contains a value)
 
 ----------
 
@@ -442,7 +442,7 @@ To create a custom validation rule you must create a class that inherits from th
 		def validate(obj, field, attributes = {})
 			#attempt to get the field value from the object
 			field_value = get_field_value(obj, field)
-			
+
 			if field_value == nil
 		      return false
 		    end
@@ -451,7 +451,7 @@ To create a custom validation rule you must create a class that inherits from th
 		end
     end
 
-The **ValidationRule** base class provides the *#get_field_value(obj, field)* method to cater for fetching the field value from the object to perform the validation against.
+The **ValidationRule** base class provides the `#get_field_value(obj, field)` method to cater for fetching the field value from the object to perform the validation against.
 
 ## Development
 
@@ -461,10 +461,11 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/vaughanbrittonsage/validation_profiler. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
-
+Bug reports and pull requests are welcome on GitHub at https://github.com/sage/validation_profiler. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+This gem is available as open source under the terms of the
+[MIT licence](LICENSE).
 
+Copyright (c) 2018 Sage Group Plc. All rights reserved.
