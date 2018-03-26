@@ -1,3 +1,8 @@
+require 'simplecov'
+SimpleCov.start do
+  add_filter 'spec/'
+end
+
 require_relative '../lib/validation_profiler'
 require_relative 'test_objects/test_objects'
 require 'pry'
