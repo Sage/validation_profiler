@@ -26,20 +26,24 @@ Or install it yourself as:
 
 First you need to create a validation profile to hold the validation logic you want to apply, validation profiles must inherit from the ValidationProfile base class or another validation profile.
 
-    class SignUpValidationProfile
-      extend ValidationProfile
-	    .....
-    end
+```ruby
+class SignUpValidationProfile
+  extend ValidationProfile
+  .....
+end
+```
 
 Then you specify validation rules that should be checked when this profile is validated against an object.
 
-    class SignUpValidationProfile
-        extend ValidationProfiler
+```ruby
+class SignUpValidationProfile
+    extend ValidationProfiler
 
-	    validates :age, :min, { value: 18 }
-	    validates :email, :email
-	    .....
-    end
+  validates :age, :min, { value: 18 }
+  validates :email, :email
+  .....
+end
+```
 
 When specifying a validation rule you need to specify the following arguments:
 
@@ -84,7 +88,9 @@ Each item in the errors array has the following attributes:
 
 This rule is used to specify a field must contain a value:
 
-    validates :name, :required
+```ruby
+validates :name, :required
+```
 
 Attributes:
 
@@ -99,7 +105,9 @@ Attributes:
 
 This rule is used to specify a [String] or [Array] must be of a certain length:
 
-    validates :name, :length, { min: 5, max: 10 }
+```ruby
+validates :name, :length, { min: 5, max: 10 }
+```
 
 Attributes:
 
@@ -126,7 +134,9 @@ Attributes:
 
 This rule is used to specify a minimum value a [DateTime] or [Numeric] field must have.
 
-    validates :age, :min, { value: 18 }
+```ruby
+validates :age, :min, { value: 18 }
+```
 
 Attributes:
 
@@ -147,7 +157,9 @@ Attributes:
 
 This rule is used to specify a maximum value a [DateTime] or [Numeric] field must have.
 
-    validates :age, :max, { value: 25 }
+```ruby
+validates :age, :max, { value: 25 }
+```
 
 Attributes:
 
@@ -168,7 +180,9 @@ Attributes:
 
 This rule is used to specify a field value must contain a valid email address.
 
-    validates :email_address, :email
+```ruby
+validates :email_address, :email
+```
 
 Attributes:
 
@@ -186,7 +200,9 @@ Attributes:
 
 This rule is used to specify a regex pattern that a field value must validate against.
 
-    validates :email, :regex, { regex: /^[^@]+@[^@]+\.[^@]+$/ }
+```ruby
+validates :email, :regex, { regex: /^[^@]+@[^@]+\.[^@]+$/ }
+```
 
 Attributes:
 
@@ -207,7 +223,9 @@ This is used to specify the regex pattern.
 
 This rule is used to specify a field value must match the value of another field.
 
-    validates :confirm_password, :match, { field: :password }
+```ruby
+validates :confirm_password, :match, { field: :password }
+```
 
 Attributes:
 
@@ -238,7 +256,9 @@ e.g.
 >
 > When :age >= 18 then :accept == true
 
-    validates :accept, :condition, { condition_field: :age, condition_expression: '>=', condition_value: 18, field_expression: '==', field_value: true }
+```ruby
+validates :accept, :condition, { condition_field: :age, condition_expression: '>=', condition_value: 18, field_expression: '==', field_value: true }
+```
 
 Attributes:
 
@@ -280,7 +300,9 @@ This is used to specify the value to use for the field statement.
 
 This rule is used to specify a field must not contain a value:
 
-    validates :hidden, :not_allowed
+```ruby
+validates :hidden, :not_allowed
+```
 
  Attributes:
 
@@ -294,7 +316,9 @@ This rule is used to specify a field must not contain a value:
 
 This rule is used to specify a field value must be within a specified list of accepted values:
 
-    validates :name, :list, { list: ['dog','cat','rabbit'] }
+```ruby
+validates :name, :list, { list: ['dog','cat','rabbit'] }
+```
 
 Attributes:
 
@@ -315,7 +339,9 @@ Attributes:
 
 This rule is used to specify a field with a child object should validate against another validation profile:
 
-    validates :address, :child, { profile: AddressValidationProfile }
+```ruby
+validates :address, :child, { profile: AddressValidationProfile }
+```
 
 Attributes:
 
@@ -337,7 +363,9 @@ Attributes:
 
 This rule is used to specify a field must be a valid Integer
 
-    validates :age, :int, { required: false }
+```ruby
+validates :age, :int, { required: false }
+```
 
 Attributes:
 
@@ -355,7 +383,9 @@ Attributes:
 
 This rule is used to specify a field must be a valid Decimal
 
-    validates :amount, :decimal, { required: false }
+```ruby
+validates :amount, :decimal, { required: false }
+```
 
 Attributes:
 
@@ -373,7 +403,9 @@ Attributes:
 
 This rule is used to specify a field must be a valid Date
 
-    validates :dob, :date, { required: false }
+```ruby
+validates :dob, :date, { required: false }
+```
 
 Attributes:
 
@@ -391,7 +423,9 @@ Attributes:
 
 This rule is used to specify a field must be a valid Time. Value can be either full datetime '12-Mar-2016 12:30:10' or seconds since epoch 1476344603.
 
-    validates :updated, :time, { required: false }
+```ruby
+validates :updated, :time, { required: false }
+```
 
 Attributes:
 
@@ -409,7 +443,9 @@ Attributes:
 
 This rule is used to specify a field must be a valid Guid.
 
-    validates :id, :guid, { hyphens: true, brackets: true, required: true }
+```ruby
+validates :id, :guid, { hyphens: true, brackets: true, required: true }
+```
 
 Attributes:
 
@@ -432,31 +468,33 @@ Attributes:
 
 To create a custom validation rule you must create a class that inherits from the **ValidationRule** base class and implement the #error_message and #validate methods, see the **RequiredValidationRule** below as an example:
 
-    class RequiredValidationRule < ValidationRule
-	    #implement this method to return the error message when
-	    #this rule fails validation
-	    def error_message(field, attributes = {})
-		    #check if custom message was specified
-		    if attributes[:message] == nil
-			    #return default method
-		      "#{field} is not valid"
-		    else
-			    #return custom message
-		      attributes[:message]
-		    end
-		end
-
-		def validate(obj, field, attributes = {})
-			#attempt to get the field value from the object
-			field_value = get_field_value(obj, field)
-
-			if field_value == nil
-		      return false
-		    end
-
-		    return !field_value.empty?
-		end
+```ruby
+class RequiredValidationRule < ValidationRule
+  #implement this method to return the error message when
+  #this rule fails validation
+  def error_message(field, attributes = {})
+    #check if custom message was specified
+    if attributes[:message] == nil
+      #return default method
+      "#{field} is not valid"
+    else
+      #return custom message
+      attributes[:message]
     end
+end
+
+def validate(obj, field, attributes = {})
+  #attempt to get the field value from the object
+  field_value = get_field_value(obj, field)
+
+  if field_value == nil
+      return false
+    end
+
+    return !field_value.empty?
+  end
+end
+```
 
 The **ValidationRule** base class provides the `#get_field_value(obj, field)` method to cater for fetching the field value from the object to perform the validation against.
 
