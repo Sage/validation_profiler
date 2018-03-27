@@ -58,11 +58,13 @@ This validation statement will be interpreted as:
 
 To use a validation profile you need to make a call to the **ValidationManager** class, and pass the object you want to validate along with the profile you want to use for the validation:
 
-    #create the validation manager
-    manager = ValidationProfiler::Manager.new
-    
-    #call the validate method and pass the object and profile
-    result = manager.validate(user, profile)
+```ruby
+# create the validation manager
+manager = ValidationProfiler::Manager.new
+
+# call the validate method and pass the object and profile
+result = manager.validate(user, profile)
+```
 
 Calls to the validate method will return a **ValidationProfiler::ManagerResult** that will detail the results of the validation.
 
