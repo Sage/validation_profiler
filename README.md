@@ -1,4 +1,8 @@
 # ValidationProfiler
+[![Build Status](https://travis-ci.org/Sage/validation_profiler.svg?branch=master)](https://travis-ci.org/Sage/validation_profiler)
+[![Maintainability](https://api.codeclimate.com/v1/badges/563268781aecd347a9df/maintainability)](https://codeclimate.com/github/Sage/validation_profiler/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/563268781aecd347a9df/test_coverage)](https://codeclimate.com/github/Sage/validation_profiler/test_coverage)
+[![Gem Version](https://badge.fury.io/rb/validation_profiler.svg)](https://badge.fury.io/rb/validation_profiler)
 
 Welcome to ValidationProfiler. This is a validation framework that allows you to seperate validation logic away from your objects and into validation profiles that can be re-used and changed without affecting your objects.
 
