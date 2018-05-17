@@ -20,7 +20,6 @@ module ValidationProfiler
         end
       end
 
-
       def validate(obj, field, attributes = {}, parent = nil)
 
         #attempt to get the field value from the object
@@ -29,14 +28,27 @@ module ValidationProfiler
         if !is_required?(field_value, attributes)
           return true
         end
-
+        
+        if attributes[:multiple] == true
+          return multiple_valid?(field_value)
+        end
+        
         #validate the value against the regex
         if field_value =~ REGEX
           return true
         end
 
-        return false
+        false
 
+      end
+      
+      def multiple_valid?(value)
+        return false unless value.is_a? String
+        value.split(/ *[,|;] */).each do |val|
+          next if val =~ REGEX
+          return false
+        end
+        true
       end
 
     end

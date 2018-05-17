@@ -26,6 +26,46 @@ RSpec.describe ValidationProfiler::Rules::EmailValidationRule do
       expect(subject.validate(test_obj, :email)).to eq(false)
     end
 
+    context 'when the multiple: true attribute is provided' do
+
+      it 'should fail validation if the value is not a string' do
+        test_obj = TestObject.new
+        test_obj.email = 123
+        expect(subject.validate(test_obj, :email, { multiple: true })).to eq(false)
+      end
+
+      it 'should correctly validate a single valid email' do
+        test_obj = TestObject.new
+        test_obj.email = 'abc@example.com'
+        expect(subject.validate(test_obj, :email, { multiple: true })).to eq(true)
+      end
+
+      it 'should fail to validate a single invalid email' do
+        test_obj = TestObject.new
+        test_obj.email = '123@123'
+        expect(subject.validate(test_obj, :email, { multiple: true })).to eq(false)
+      end
+
+      it 'should correctly validate multiple valid emails comma separated' do
+        test_obj = TestObject.new
+        test_obj.email = 'abc@example.com, def@example.com, ghi@example.com'
+        expect(subject.validate(test_obj, :email, { multiple: true })).to eq(true)
+      end
+
+      it 'should correctly validate multiple valid emails semicolon separated' do
+        test_obj = TestObject.new
+        test_obj.email = 'abc@example.com; def@example.com; ghi@example.com'
+        expect(subject.validate(test_obj, :email, { multiple: true })).to eq(true)
+      end
+
+      it 'should fail to validate multiple emails when one is invalid' do
+        test_obj = TestObject.new
+        test_obj.email = 'abc@example.com, def@example.com, ghi@examplecom'
+        expect(subject.validate(test_obj, :email, { multiple: true })).to eq(false)
+      end
+
+    end
+
   end
 
   describe '#error_message' do

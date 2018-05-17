@@ -181,10 +181,13 @@ Attributes:
 This rule is used to specify a field value must contain a valid email address.
 
 ```ruby
-validates :email_address, :email
+validates :email_address, :email, { multiple: true }
 ```
 
 Attributes:
+ 
+ - **:multiple** [Boolean] [Default=False] [Optional]
+ This is used to allow multiple email addresses to be entered. Addresses should be separated by a comma(,) or semicolon(;)
 
  - **:message** [String] [Optional]
  This is used to allow a custom error message to be specified.
