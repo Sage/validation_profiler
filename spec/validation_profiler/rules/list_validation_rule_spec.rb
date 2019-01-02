@@ -30,10 +30,18 @@ RSpec.describe ValidationProfiler::Rules::ListValidationRule do
 
     end
 
+    it 'should fail when a guid value is not validated by the regex ' do
+      hash = { :guid => ['foo'] }
+      expect(subject.validate(hash, :guid, { :regex => /[0-9a-fA-F]{32}/ })).to eq(false)
+    end
+
+    it 'should pass when a guid value is validated by the regex' do
+      hash = { :guid => ['f8cb5475324e41fe858a8402cc1324e3'] }
+      expect(subject.validate(hash, :guid, { :regex => /[0-9a-fA-F]{32}/ })).to eq(true)
+    end
   end
 
   context '#error_message' do
-
     it 'should return the default error message when no custom message has been specified' do
       expect(subject.error_message(:text)).to eq('text is not an accepted value.')
     end
@@ -42,6 +50,8 @@ RSpec.describe ValidationProfiler::Rules::ListValidationRule do
       expect(subject.error_message(:text, { message: 'Please make sure that text is an accepted value.' })).to eq('Please make sure that text is an accepted value.')
     end
 
+    it 'should return the default error message when no custom message has been specified' do
+      expect(subject.error_message(:regex)).to eq('regex is not an accepted value.')
+    end
   end
-
 end

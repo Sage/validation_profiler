@@ -1,50 +1,47 @@
 module ValidationProfiler
   module Rules
+    # ListValidationRule class
     class ListValidationRule < ValidationProfiler::Rules::ValidationRule
-
       def error_message(field, attributes = {}, parent = nil)
-
         field_name = field.to_s
-        if parent != nil
-          field_name = "#{parent.to_s}.#{field.to_s}"
-        end
+        field_name = "#{parent}.#{field}" unless parent.nil?
 
-        #check if a custom error message has been specified in the attributes
-        if attributes[:message] == nil
-          #no custom error message has been specified so create the default message.
+        if attributes[:message].nil?
           "#{field_name} is not an accepted value."
         else
           attributes[:message]
         end
       end
 
-
       def validate(obj, field, attributes = {}, parent = nil)
-
-        #attempt to get the field value from the object
         field_value = get_field_value(obj, field)
 
-        if !is_required?(field_value, attributes)
-          return true
-        end
-
-        if field_value == nil
-          return false
-        end
+        return true unless is_required?(field_value, attributes)
+        return false if field_value.nil?
 
         list = attributes[:list]
-        if list == nil || !list.is_a?(Array)
-          raise ValidationProfiler::Exceptions::InvalidValidationRuleAttributes.new(ValidationProfiler::Rules::ListValidationRule, field)
+        regex = attributes[:regex]
+
+        raise_invalid_exception!(field) if regex.nil? && list.nil?
+
+        if list
+          raise_invalid_exception!(field) unless list.is_a?(Array)
+          return false unless list.include?(field_value)
+        elsif regex
+          field_value.each do |value|
+            return false unless value =~ regex
+          end
         end
 
-        if !list.include?(field_value)
-          return false
-        end
-
-        return true
-
+        true
       end
 
+      private
+
+      def raise_invalid_exception!(field)
+        raise ValidationProfiler::Exceptions::InvalidValidationRuleAttributes
+          .new(ValidationProfiler::Rules::ListValidationRule, field)
+      end
     end
   end
 end
