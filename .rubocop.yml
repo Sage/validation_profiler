@@ -1,0 +1,3 @@
+inherit_from:
+  - '.rubocop-shared.yml'
+  - '.rubocop-local-overrides.yml'

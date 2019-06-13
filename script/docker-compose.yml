@@ -1,6 +1,6 @@
 gem_test_runner:
-  image: codeguru/ruby:2.3.1-alpine-3.4
+  image: sageone/validation_profiler_test_runner
   container_name: gem_test_runner
   command: bash -c "while true; do echo 'Container is running...'; sleep 2; done"
   volumes:
-      - ../:/gem_src
+      - ../:/validation_profiler

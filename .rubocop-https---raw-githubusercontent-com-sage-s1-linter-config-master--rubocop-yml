@@ -1,0 +1,384 @@
+# Up to date as of v0.54.0
+# If a cop is not referenced here, the defaults from Rubocop will be used.
+
+AllCops:
+  Exclude:
+    - '**/db/**/*'
+    - '**/tmp/**/*'
+    - '**/vendor/**/*'
+    - '**/script/**/*'
+  DisplayStyleGuide: true
+  ExtraDetails: true
+  UseCache: true
+  MaxFilesInCache: 50000
+  TargetRubyVersion: 2.3
+  TargetRailsVersion: 4.2
+
+# Always use alias_method when aliasing methods of modules, classes, or singleton classes at runtime, as the lexical
+# scope of alias leads to unpredictability in these cases.
+Style/Alias:
+  EnforcedStyle: prefer_alias_method
+
+# Checks for cases when you could use a block accepting version of a method that does automatic resource cleanup.
+#
+#   # bad
+#   f = File.open('file')
+#
+#   # good
+#   f = File.open('file') do
+#     ...
+#   end
+Style/AutoResourceCleanup:
+  Enabled: true
+
+# Checks if usage of %() or %Q() matches configuration.
+#
+# EnforcedStyle: percent_q - enforces use of %Q().
+Style/BarePercentLiterals:
+  EnforcedStyle: percent_q
+
+# Checks the style of children definitions at classes and modules. Basically there are two different styles:
+#
+# EnforcedStyle:
+#   nested - have each child on its own line
+#     class Foo
+#       class Bar
+#       end
+#     end
+#
+# compact (allowed for specs only) - combine definitions as much as possible
+#   class Foo::Bar
+#   end
+Style/ClassAndModuleChildren:
+  Exclude:
+    - '**/spec/**/*'
+
+# Mapping from undesired method to desired method e.g. to use `detect` over `find`.
+Style/CollectionMethods:
+  Enabled: true
+  PreferredMethods:
+    collect: 'map'
+    collect!: 'map!'
+    inject: 'reduce'
+    detect: 'detect'
+    find_all: 'select'
+
+# This cop checks for missing top-level documentation of classes and modules. Classes with no body are exempt from the
+# check and so are namespace modules - modules that have nothing in their bodies except classes, other modules, or
+# constant definitions.
+#
+# The documentation requirement is annulled if the class or module has a "#:nodoc:" comment next to it. Likewise,
+# "#:nodoc: all" does the same for all its children.
+Style/Documentation:
+  Exclude:
+    - '**/spec/**/*'
+
+# Warn on empty else statements
+#
+# EnforcedStyle: empty - only return an error for a completely empty else clause as sometimes it may be necessary to
+# return `nil` from an else branch.
+Style/EmptyElse:
+  EnforcedStyle: empty
+
+# Checks for the formatting of empty method definitions.
+#
+# EnforcedStyle: expanded - only return an error if the end is on the same line as the def.
+#
+# bad
+# def foo(bar); end
+#
+# good
+# def foo(bar)
+# end
+Style/EmptyMethod:
+  EnforcedStyle: expanded
+  Exclude:
+    - '**/spec/**/*'
+
+# Checks for methods called on a do...end block. The point of this check is that it's easy to miss the call tacked on
+# to the block when reading code.
+Style/MethodCalledOnDoEndBlock:
+  Enabled: true
+
+# Checks for `if` / `case` expressions that do not have an `else` branch.
+#
+# Only configured to check for `case` statements. It's best practice to always provide a default for `case` statements.
+Style/MissingElse:
+  Enabled: true
+  EnforcedStyle: case
+
+# Use `next` to skip iteration instead of a condition at the end.
+#
+# # bad
+# [1, 2].each do |a|
+#   if a == 1 do
+#     puts a
+#   end
+# end
+#
+# # good
+# [1, 2].each do |a|
+#   next unless a == 1
+#
+#   puts a
+# end
+Style/Next:
+  EnforcedStyle: always
+
+# Checks for options hashes and discourages them if the current Ruby version supports keyword arguments.
+Style/OptionHash:
+  Enabled: true
+
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    default: ()
+    '%i': '()'
+    '%I': '()'
+    '%w': '()'
+    '%W': '()'
+
+# Checks for the use of the send method. Prefers use of `__send__` and `public_send` over `send`.
+Style/Send:
+  Enabled: true
+
+# Enforces the use of consistent method names from the String class. So far it enforces use of `to_sym` over `intern`.
+Style/StringMethods:
+  Enabled: true
+
+# Check for array literals made up of symbols that are not using the %i() syntax.
+Style/SymbolArray:
+  Enabled: true
+  EnforcedStyle: brackets
+
+# Checks for the presence of parentheses around ternary conditions.
+#
+# EnforcedStyle: require_parentheses_when_complex
+#
+# bad
+# foo = (bar?) ? a : b
+# foo = (bar.baz?) ? a : b
+# foo = bar && baz ? a : b
+#
+# good
+# foo = bar? ? a : b
+# foo = bar.baz ? a : b
+# foo = (bar && baz) ? a : b
+Style/TernaryParentheses:
+  EnforcedStyle: require_parentheses_when_complex
+
+#################### Layout ################################
+
+# Align the elements of a hash literal if they span more than one line.
+#
+# EnforcedHashRocketStyle: key - left alignment of keys.
+#   'a' => 2
+#   'bb' => 3
+#
+# EnforcedColonStyle: key - left alignment of keys.
+#   a: 0
+#   bb: 1
+Layout/AlignHash:
+  EnforcedHashRocketStyle: key
+  EnforcedColonStyle: key
+
+# Alignment of parameters in multi-line method calls.
+#
+# The `with_fixed_indentation` style aligns the following lines with one level of indentation relative to the start of
+# the line with the method call.
+#
+#     method_call(a,
+#       b)
+Layout/AlignParameters:
+  EnforcedStyle: with_fixed_indentation
+
+# Checks how the whens of a case expression are indented in relation to its end keyword.
+#
+# EnforcedStyle: end
+#
+# good
+# kind = case year
+# when 1850..1889
+#   'Blues'
+# when 1890..1909
+#   'Ragtime'
+# when 1910..1929
+#   'New Orleans Jazz'
+# when 1930..1939
+#   'Swing'
+# when 1940..1950
+#   'Bebop'
+# else
+#   'Jazz'
+# end
+Layout/CaseIndentation:
+  EnforcedStyle: end
+  
+# Checks whether the end keywords are aligned properly.
+#
+# AlignWith: variable - in assignments, `end` should be aligned with the start of the variable on the left hand side of
+# `=`. In all other situations, `end` should still be aligned with the keyword.
+#
+# variable = if true
+# end
+Layout/EndAlignment:
+  EnforcedStyleAlignWith: variable
+
+# Checks for a line break before the first element in a multi-line array.
+Layout/FirstArrayElementLineBreak:
+  Enabled: true
+
+# Checks for a line break before the first element in a multi-line hash.
+Layout/FirstHashElementLineBreak:
+  Enabled: true
+
+# Checks for a line break before the first argument in a multi-line method call.
+Layout/FirstMethodArgumentLineBreak:
+  Enabled: true
+
+# Checks for a line break before the first parameter in a multi-line method parameter definition.
+Layout/FirstMethodParameterLineBreak:
+  Enabled: true
+
+# Checks the indentation of the first element in an array literal.
+#
+# The value `consistent` means that the indentation of the first element shall always be relative to the first position
+# of the line where the opening bracket is.
+#
+# array = [
+#   :value
+# ]
+# and_in_a_method_call([
+#   :no_difference
+# ])
+Layout/IndentFirstArrayElement:
+  EnforcedStyle: consistent
+
+# Checks the indentation of the first key in a hash literal.
+#
+# The value `consistent` means that the indentation of the first key shall always be relative to the first position
+# of the line where the opening brace is.
+#
+# hash = {
+#   key: :value
+# }
+# and_in_a_method_call({
+#   no: :difference
+# })
+Layout/IndentFirstHashElement:
+  EnforcedStyle: consistent
+
+# Checks that multiline assignments do not have a newline after the assignment operator.
+#
+# EnforcedStyle: same_line
+#
+# foo = if expression
+#   'bar'
+# end
+Layout/MultilineAssignmentLayout:
+  Enabled: true
+  EnforcedStyle: same_line
+
+# Checks the indentation of the method name part in method calls that span more than one line.
+#
+# EnforcedStyle: indented
+#
+# Thing.a
+#   .b
+#   .c
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+# Checks the indentation of the right hand side operand in binary operations that span more than one line.
+#
+# EnforcedStyle: indented
+#
+# if a &&
+#     b
+#   something
+# end
+Layout/MultilineOperationIndentation:
+  EnforcedStyle: indented
+
+#################### Naming ##########################
+
+# Checks that all numbered variables use the configured style for their numbering.
+#
+# EnforcedStyle: snake_case
+#
+# # bad
+#
+# variable1 = 1
+#
+# # good
+#
+# variable_1 = 1
+Naming/VariableNumber:
+  EnforcedStyle: snake_case
+
+#################### Metrics ################################
+
+# Checks that the ABC size of methods is not higher than the configured maximum. The ABC size is based on assignments,
+# branches (method calls), and conditions. See http://c2.com/cgi/wiki?AbcMetric.
+Metrics/AbcSize:
+  Max: 22
+
+# This cop checks if the length of a block exceeds some maximum value. Ignores comment-only lines.
+Metrics/BlockLength:
+  Exclude:
+    - '**/routes.rb'
+    - '**/config/initializers/**/*.rb'
+    - '**/config/environments/**/*.rb'
+    - '**/spec/**/*'
+    - '**/*.gemspec'
+
+# Checks if the length a class exceeds some maximum value. Ignores comment-only lines.
+Metrics/ClassLength:
+  Max: 150
+
+# Checks that the cyclomatic complexity of methods is not higher than the configured maximum. The cyclomatic complexity
+# is the number of linearly independent paths through a method. The algorithm counts decision points and adds one.
+#
+# An if statement (or unless or ?:) increases the complexity by one. An else branch does not, since it doesn't add a
+# decision point. The && operator (or keyword and) can be converted to a nested if statement, and ||/or is shorthand for
+# a sequence of ifs, so they also add one. Loops can be said to have an exit condition, so they add one.
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+# Checks the length of lines in the source code.
+Metrics/LineLength:
+  Max: 120
+  Exclude:
+    - '**/routes.rb'
+    - '**/config/initializers/**/*.rb'
+    - '**/config/environments/**/*.rb'
+    - '**/Gemfile'
+
+# Checks if the length of a method exceeds some maximum value. Ignores comment-only lines.
+Metrics/MethodLength:
+  Max: 20
+  Exclude:
+    - '**/spec/**/*'
+
+# Checks if the length of a module exceeds some maximum value. Ignores comment-only lines.
+Metrics/ModuleLength:
+  Max: 100
+
+# Tries to produce a complexity score that's a measure of the complexity the reader experiences when looking at a
+# method. For that reason it considers `when` nodes as something that doesn't add as much complexity as an `if` or a
+# `&&`. Except if it's one of those special `case`/`when` constructs where there's no expression after `case`. Then
+# the cop treats it as an `if`/`elsif`/`elsif`... and lets all the `when` nodes count. In contrast to
+# CyclomaticComplexity, it considers `else` nodes as adding complexity.
+Metrics/PerceivedComplexity:
+  Max: 7
+
+#################### Lint ################################
+
+# Checks for assignments in the conditions of if/while/until.
+Lint/AssignmentInCondition:
+  AllowSafeAssignment: false
+
+# Checks for interpolated literals.
+#
+# "result is #{10}"
+Lint/LiteralInInterpolation:
+  AutoCorrect: true
