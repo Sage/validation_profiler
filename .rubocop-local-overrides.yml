@@ -1,0 +1,12 @@
+#################### Style ##########################
+
+# Disabled due to them adding little value
+Style/Documentation:
+  Enabled: false
+
+##################### Lint ##########################
+
+# Allow un-used keyword arguments
+Lint/UnusedMethodArgument:
+  AllowUnusedKeywordArguments: true
+  IgnoreEmptyMethods: true
