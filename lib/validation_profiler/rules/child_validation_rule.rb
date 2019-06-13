@@ -20,25 +20,35 @@ module ValidationProfiler
         field_value = get_field_value(obj, field)
 
         return true unless is_required?(field_value, attributes)
+        return false if field_value.nil?
 
-        profile = attributes[:profile]
-        if profile.nil?
+        validation_profile = get_validation_profile(attributes, field)
+        parent_field = build_parent_field(parent, field)
+
+        validate_field_value(field_value, validation_profile, parent_field)
+      end
+
+      def validate_field_value(field_value, profile, parent_field)
+        if field_value.is_a? Array
+          field_value.map { |value| ValidationProfiler::Manager.new.validate(value, profile, parent_field) }
+        else
+          ValidationProfiler::Manager.new.validate(field_value, profile, parent_field)
+        end
+      end
+
+      def build_parent_field(parent, field)
+        return field.to_s if parent.nil?
+
+        "#{parent}.#{field}"
+      end
+
+      def get_validation_profile(attributes, field)
+        if attributes[:profile].nil?
           raise ValidationProfiler::Exceptions::InvalidValidationRuleAttributes
             .new(ValidationProfiler::Rules::ChildValidationRule, field)
         end
 
-        return false if field_value.nil?
-
-        parent_field = field.to_s
-        parent_field = "#{parent}.#{field}" unless parent.nil?
-
-        if field_value.is_a? Array
-          result = field_value.map { |value| ValidationProfiler::Manager.new.validate(value, profile, parent_field) }
-        else
-          result = ValidationProfiler::Manager.new.validate(field_value, profile, parent_field)
-        end
-
-        result
+        attributes[:profile]
       end
     end
   end
