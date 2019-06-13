@@ -40,9 +40,10 @@ RSpec.describe ValidationProfiler::Rules::ChildValidationRule do
       let(:nested_2) { double(text: 'def', numeric: 7) }
       let(:nested_array) { [nested_1, nested_2] }
       let(:hash) { { nested: nested_array } }
+      let(:validation_profile) { MultipleRuleTestProfile }
 
       it 'returns an array of results' do
-        result = subject.validate(hash, :nested, profile: MultipleRuleTestProfile)
+        result = subject.validate(hash, :nested, profile: validation_profile)
 
         expect(result).to be_an(Array)
         expect(result.length).to eq 2
@@ -50,7 +51,7 @@ RSpec.describe ValidationProfiler::Rules::ChildValidationRule do
 
       context 'valid' do
         it 'validates an array of child objects' do
-          result = subject.validate(hash, :nested, profile: MultipleRuleTestProfile)
+          result = subject.validate(hash, :nested, profile: validation_profile)
 
           expect(result[0].outcome).to be true
           expect(result[1].outcome).to be true
@@ -61,10 +62,34 @@ RSpec.describe ValidationProfiler::Rules::ChildValidationRule do
         let(:text) { '' }
 
         it 'validates an array of child objects' do
-          result = subject.validate(hash, :nested, profile: MultipleRuleTestProfile)
+          result = subject.validate(hash, :nested, profile: validation_profile)
 
           expect(result[0].outcome).to be false
           expect(result[1].outcome).to be true
+        end
+      end
+
+      context 'is required' do
+        let(:validation_profile) { ChildArrayRuleTestProfile }
+
+        context 'when empty array' do
+          let(:nested_array) { [] }
+
+          it 'returns false' do
+            result = subject.validate(hash, :nested, profile: validation_profile)
+
+            expect(result).to be false
+          end
+        end
+
+        context 'when nil' do
+          let(:nested_array) { nil }
+
+          it 'returns false' do
+            result = subject.validate(hash, :nested, profile: validation_profile)
+
+            expect(result).to be false
+          end
         end
       end
     end

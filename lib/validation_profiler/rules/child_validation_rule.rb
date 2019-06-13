@@ -21,6 +21,7 @@ module ValidationProfiler
 
         return true unless is_required?(field_value, attributes)
         return false if field_value.nil?
+        return false if field_value.respond_to?(:empty?) && field_value.empty?
 
         validation_profile = get_validation_profile(attributes, field)
         parent_field = build_parent_field(parent, field)
