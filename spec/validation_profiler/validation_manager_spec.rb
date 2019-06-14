@@ -69,11 +69,12 @@ RSpec.describe ValidationProfiler::Manager do
     end
 
     describe 'field value is an array' do
+      let(:identifier) { SecureRandom.uuid.delete('-') }
       let(:text) { SecureRandom.hex(5) }
       let(:nested_1) { double(text: text, numeric: 6) }
       let(:nested_2) { double(text: text, numeric: 7) }
       let(:nested_array) { [nested_1, nested_2] }
-      let(:hash) { { nested: nested_array } }
+      let(:hash) { { identifier: identifier, nested: nested_array } }
 
       context 'valid' do
         it 'correctly validates an array of child objects' do
@@ -81,6 +82,18 @@ RSpec.describe ValidationProfiler::Manager do
           result = manager.validate(hash, ChildArrayRuleTestProfile)
 
           expect(result.outcome).to eq(true)
+        end
+
+        context 'but a property has failed validation' do
+          let(:identifier) { '' }
+
+          it 'fails validation' do
+            manager = ValidationProfiler::Manager.new
+            result = manager.validate(hash, ChildArrayRuleTestProfile)
+
+            expect(result.outcome).to eq(false)
+            expect(result.errors.count).to eq(1)
+          end
         end
       end
 
@@ -100,6 +113,18 @@ RSpec.describe ValidationProfiler::Manager do
 
           expect(result.outcome).to eq(false)
           expect(result.errors.count).to eq 2
+        end
+
+        context 'and a previous property has failed validation' do
+          let(:identifier) { '' }
+
+          it 'fails validation and returns all errors' do
+            manager = ValidationProfiler::Manager.new
+            result = manager.validate(hash, ChildArrayRuleTestProfile)
+
+            expect(result.outcome).to eq(false)
+            expect(result.errors.count).to eq 3
+          end
         end
       end
     end

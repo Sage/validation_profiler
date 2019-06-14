@@ -42,5 +42,6 @@ class ChildRuleTestProfile
 end
 
 class ChildArrayRuleTestProfile
+  validates :identifier, :guid, required: true
   validates :nested, :child, { profile: MultipleRuleTestProfile, required: true }
 end
