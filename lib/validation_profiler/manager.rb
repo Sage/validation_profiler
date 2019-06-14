@@ -21,16 +21,15 @@ module ValidationProfiler
         outcome = rule.validate(obj, r[:field], r[:attributes], parent)
 
         if outcome.is_a?(Array)
-          result.errors = outcome.map(&:errors).flatten
-          result.outcome = result.errors.empty?
+          result.errors += outcome.map(&:errors).flatten
         elsif outcome.is_a?(ValidationProfiler::ManagerResult) && !outcome.outcome
-          result.errors = result.errors + outcome.errors
-          result.outcome = false
+          result.errors += outcome.errors
         elsif !outcome
-          result.outcome = false
           result.errors.push(field: r[:field], message: rule.error_message(r[:field], r[:attributes], parent))
         end
       end
+
+      result.outcome = result.errors.empty?
 
       result
     end
