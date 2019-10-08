@@ -21,6 +21,12 @@ RSpec.describe ValidationProfiler::Rules::DecimalValidationRule do
           expect(subject.validate(obj, :decimal)).to eq(true)
         end
       end
+      context 'that is a BigDecimal' do
+        it 'should return true' do
+          obj = { decimal: BigDecimal('12.50') }
+          expect(subject.validate(obj, :decimal)).to eq(true)
+        end
+      end
     end
 
     context 'when an invalid decimal is specified' do

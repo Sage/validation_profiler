@@ -29,7 +29,7 @@ module ValidationProfiler
           return true
         end
 
-        if !is_valid_decimal?(field_value.to_s)
+        if !is_valid_decimal?(field_value)
           return false
         end
 
@@ -38,9 +38,12 @@ module ValidationProfiler
       end
 
       def is_valid_decimal?(value)
-        (value =~ /\A[-+]?\d*\.?\d+\z/) == 0
+        if value.instance_of? BigDecimal
+          true
+        else
+          (value.to_s =~ /\A[-+]?\d*\.?\d+\z/) == 0
+        end
       end
-
     end
   end
 end
