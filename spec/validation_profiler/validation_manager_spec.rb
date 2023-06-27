@@ -36,6 +36,11 @@ RSpec.describe ValidationProfiler::Manager do
       expect(manager.validate(TestObject.new, CustomRuleTestProfile).outcome).to eq(false)
     end
 
+    it 'will instantiate a rules manager instance if it is not set' do
+      ValidationProfiler::Rules::Manager.instance = nil
+      subject.add_rule(:custom_required, CustomRequiredValidationRule)
+      expect(ValidationProfiler::Rules::Manager.instance).not_to be_nil
+    end
   end
 
   context ValidationProfiler::Rules::ChildValidationRule do
