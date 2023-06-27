@@ -33,5 +33,17 @@ module ValidationProfiler
 
       result
     end
+
+    # Called to add a custom validation rule to the manager
+    #
+    # @param key [Symbol] The name of the rule
+    # @param rule [ClassName] Class name of the validation rule to register.
+    def add_rule(key, rule)
+      if ValidationProfiler::Rules::Manager.instance.nil?
+        ValidationProfiler::Rules::Manager.new
+      end
+
+      ValidationProfiler::Rules::Manager.instance.add_rule(key, rule)
+    end
   end
 end

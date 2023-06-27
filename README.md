@@ -484,13 +484,13 @@ class RequiredValidationRule < ValidationRule
       #return custom message
       attributes[:message]
     end
-end
+  end
 
-def validate(obj, field, attributes = {})
-  #attempt to get the field value from the object
-  field_value = get_field_value(obj, field)
+  def validate(obj, field, attributes = {})
+    #attempt to get the field value from the object
+    field_value = get_field_value(obj, field)
 
-  if field_value == nil
+    if field_value == nil
       return false
     end
 
@@ -500,6 +500,13 @@ end
 ```
 
 The **ValidationRule** base class provides the `#get_field_value(obj, field)` method to cater for fetching the field value from the object to perform the validation against.
+
+This rule can be added to the ValidationProfiler::Manager, e.g.:
+
+```ruby
+validation_manager = ValidationProfiler::Manager.new
+validation_manager.add_rule(:custom_required, RequiredValidationRule)
+```
 
 ## Development
 

@@ -29,6 +29,15 @@ RSpec.describe ValidationProfiler::Manager do
     expect(subject.validate(obj, MultipleRuleTestProfile).outcome).to eq(false)
   end
 
+  context '#add_rule'  do
+    it 'should add a valid rule and use it to validate' do
+      manager = ValidationProfiler::Manager.new
+      manager.add_rule(:custom_required, CustomRequiredValidationRule)
+      expect(manager.validate(TestObject.new, CustomRuleTestProfile).outcome).to eq(false)
+    end
+
+  end
+
   context ValidationProfiler::Rules::ChildValidationRule do
     it 'should fail when a nested property is nil' do
       obj = TestObject.new
