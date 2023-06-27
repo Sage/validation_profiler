@@ -1,5 +1,5 @@
 # ValidationProfiler
-[![Build Status](https://travis-ci.org/Sage/validation_profiler.svg?branch=master)](https://travis-ci.org/Sage/validation_profiler)
+[![RSpec](https://github.com/Sage/validation_profiler/actions/workflows/rspec.yml/badge.svg)](https://github.com/Sage/validation_profiler/actions/workflows/rspec.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/563268781aecd347a9df/maintainability)](https://codeclimate.com/github/Sage/validation_profiler/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/563268781aecd347a9df/test_coverage)](https://codeclimate.com/github/Sage/validation_profiler/test_coverage)
 [![Gem Version](https://badge.fury.io/rb/validation_profiler.svg)](https://badge.fury.io/rb/validation_profiler)
