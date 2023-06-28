@@ -28,6 +28,12 @@ RSpec.describe ValidationProfiler::Rules::MaxValidationRule do
       expect(subject.validate(test_obj, :datetime, { value: DateTime.now })).to eq(false)
     end
 
+    it 'should fail to validate if the field is not a numeric or datetime type' do
+      test_obj = TestObject.new
+      test_obj.datetime = 'test'
+      expect { subject.validate(test_obj, :datetime, { value: DateTime.now }) }.to raise_error(ValidationProfiler::Exceptions::InvalidFieldType)
+    end
+
   end
 
   describe '#error_message' do

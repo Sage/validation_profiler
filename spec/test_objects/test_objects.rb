@@ -25,6 +25,10 @@ class CustomRequiredValidationRule < ValidationProfiler::Rules::RequiredValidati
 
 end
 
+class CustomRuleTestProfile
+  validates :text, :custom_required
+end
+
 class MultipleRuleTestProfile
   validates :text, :required
   validates :numeric, :min, { value: 5 }
